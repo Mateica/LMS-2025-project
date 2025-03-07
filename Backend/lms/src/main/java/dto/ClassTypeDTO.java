@@ -1,17 +1,15 @@
 package dto;
 
-public class PlaceDTO {
+public class ClassTypeDTO {
 	private Long id;
 	private String name;
-	private CountryDTO country;
 
-	public PlaceDTO() {
+	public ClassTypeDTO() {
 	}
 
-	public PlaceDTO(Long id, String name, CountryDTO country) {
+	public ClassTypeDTO(Long id, String name) {
 		this.id = id;
 		this.name = name;
-		this.country = country;
 	}
 
 	public Long getId() {
@@ -28,13 +26,5 @@ public class PlaceDTO {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public CountryDTO getCountry() {
-		return country;
-	}
-
-	public void setCountry(CountryDTO country) {
-		this.country = country;
 	}
 }

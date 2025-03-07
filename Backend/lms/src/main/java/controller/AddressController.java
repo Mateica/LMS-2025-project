@@ -19,10 +19,6 @@ import dto.AddressDTO;
 import dto.PlaceDTO;
 import model.Address;
 import model.Place;
-import rs.ac.singidunum.novisad.primer1.dto.KorisnikDTO;
-import rs.ac.singidunum.novisad.primer1.dto.RacunDTO;
-import rs.ac.singidunum.novisad.primer1.model.Korisnik;
-import rs.ac.singidunum.novisad.primer1.model.Racun;
 import service.ServiceInterface;
 
 @Controller
