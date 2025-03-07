@@ -20,9 +20,8 @@ public class Administrator {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Administrator(Long id, RegisteredUser user) {
+	public Administrator(RegisteredUser user) {
 		super();
-		this.id = id;
 		this.user = user;
 	}
 
