@@ -1,60 +1,51 @@
 package controller;
 
-import java.util.ArrayList;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import service.ServiceInterface;
 
-import service.BaseService;
-
-public abstract class BaseController<T, DTO> {
+public abstract class BaseController<T, DTO> implements ControllerInterface<DTO> {
 	@Autowired
-	private BaseService<T> service;
+	protected ServiceInterface<T> service;
 
 	public BaseController() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public BaseController(BaseService<T> service) {
+	public BaseController(ServiceInterface<T> service) {
 		super();
 		this.service = service;
 	}
 
-	public BaseService<T> getService() {
+	public ServiceInterface<T> getService() {
 		return service;
 	}
 
-	public void setService(BaseService<T> service) {
+	public void setService(ServiceInterface<T> service) {
 		this.service = service;
 	}
-	
-	@RequestMapping(method = RequestMethod.GET)	
-	public ResponseEntity<Iterable<DTO>> findAll(){
-		ArrayList<DTO> elements = new ArrayList<DTO>();
-		
-		for(T t : service.findAll()) {
-			elements.add(new DTO(r.getBrojRacuna(),r.getStanje(),null,null));
-		}
-		
-		return new ResponseEntity<Iterable<DTO>>(elements, HttpStatus.OK);
-	};
-	
-	@RequestMapping(method = RequestMethod.GET)
-	public ResponseEntity<DTO> findById(@PathVariable("id") Long id);
-	
-	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<DTO> create(@RequestBody T t);
-	
-	@RequestMapping(path = "/{id}", method = RequestMethod.PUT)
-	public ResponseEntity<DTO> update(@RequestBody T t, @PathVariable("id") Long id);
-	
-	@RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
-	public ResponseEntity<DTO> delete(@PathVariable("id") Long id);
 
+	@Override
+	@DeleteMapping(path = "/{id}")
+	public ResponseEntity<DTO> delete(@PathVariable("id") Long id) {
+		if (service.findById(id).orElse(null) == null) {
+			return new ResponseEntity<DTO>(HttpStatus.NOT_FOUND);
+		}
+		this.service.delete(id);
+		return new ResponseEntity<DTO>(HttpStatus.OK);
+	}
+
+	@Override
+	@DeleteMapping(path = "/{id}")
+	public ResponseEntity<DTO> softDelete(@PathVariable("id") Long id) {
+		if (service.findById(id).orElse(null) == null) {
+			return new ResponseEntity<DTO>(HttpStatus.NOT_FOUND);
+		}
+		this.service.softDelete(id);
+		return new ResponseEntity<DTO>(HttpStatus.OK);
+	}
 }
